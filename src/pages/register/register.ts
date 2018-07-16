@@ -1,0 +1,112 @@
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, LoadingController, ToastController } from 'ionic-angular';
+
+import{FormGroup,FormBuilder,Validators} from '@angular/forms';
+
+import {ServicesProvider} from '../../providers/services/services';
+
+
+import {HomePage} from '../home/home';
+import {LoginPage} from '../login/login';
+
+@IonicPage()
+@Component({
+  selector: 'page-register',
+  templateUrl: 'register.html',
+})
+export class RegisterPage {
+
+  form:FormGroup;
+  messageError:string = "";
+  messageErrorPassword:string = "";
+  messageErrorName:string = "";
+  constructor(
+          public navCtrl: NavController,
+          public navParams: NavParams,
+          private formBuild:FormBuilder,
+          private service:ServicesProvider,
+          public loadingCtrl: LoadingController,
+          private toastCtrl: ToastController,
+
+      ) {
+        this.createForm();
+  }
+
+  ionViewDidLoad() {
+    console.log('ionViewDidLoad RegisterPage');
+  }
+
+  createForm(){
+    this.form = this.formBuild.group({
+      email: ['',Validators.compose([Validators.maxLength(70), Validators.pattern('^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$'), Validators.required])],
+      password: ['',[Validators.required, Validators.minLength(6)]],
+      displayName: ['',[Validators.required, Validators.minLength(1)]]
+     
+    });
+
+    
+  } 
+
+  signUp(){
+    if(this.form.valid){
+
+        let loading = this.loadingCtrl.create({
+
+          showBackdrop: true,
+          content: `Criando conta...`,
+          duration: 5000
+        });
+        loading.present();
+
+        let toast = this.toastCtrl.create({ 
+          duration: 3000, position: 'bottom' 
+        });
+
+        this.service.createUser(this.form.value)
+        .then((user:any) => {                    
+         user.user.sendEmailVerification();
+         user.user.updateProfile({displayName: this.form.value.displayName});  
+         localStorage.setItem('photoURL',user.user.photoURL);      
+          this.navCtrl.setRoot(HomePage).then(() => {
+            toast.setMessage(`Olá ${this.form.value.displayName}`);
+            loading.dismiss();
+            toast.present();
+          });
+        })
+        .catch((error: any) => {
+          console.log(error);
+          loading.dismiss();
+          if (error.code == 'auth/email-already-in-use') {
+            toast.setMessage('Este e-mail já está cadastrado.');
+          }
+          if (error.code == 'auth/weak-password') {
+            toast.setMessage('A senha deve possuir mais de 6 caracteres.');
+          }
+          toast.present();
+
+        })
+    }else{
+      console.log(this.form)
+      this.messageError = "";
+      this.messageErrorPassword = "";
+      this.messageErrorName = "";
+
+    
+      if(this.form.controls.displayName.invalid){
+        this.messageErrorName = "Nome inválido";
+      }
+      if(this.form.controls.email.invalid){
+        this.messageError = "E-mail inválido";
+      }
+      if(this.form.controls.password.invalid){
+        this.messageErrorPassword = "Senha inválida";
+      }
+
+    }
+    
+  }
+  goSignIn(){
+    this.navCtrl.setRoot(LoginPage);
+  }
+
+}

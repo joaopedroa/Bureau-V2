@@ -1,0 +1,53 @@
+
+<div id = 'boasvindas'>
+  <h1>Bem Vindo!</h1>
+  <h2><span>B</span><span>U</span><span>R</span><span>E</span><span>A</span><span>U</span></h2>
+</div>
+<form [formGroup]="form">
+  <ion-row>
+    <ion-col>
+      <ion-item class="input-custom">
+        <ion-label color="light" floating>E-mail</ion-label>
+        <ion-input type="email" name="email" formControlName="email" required></ion-input>
+        
+      </ion-item>
+      <h6> {{messageError}}</h6>
+      <ion-item class="input-custom">
+        <ion-label color="light" floating>Senha</ion-label>
+        <ion-input type="password" name="password" formControlName="password"  required></ion-input>
+       
+      </ion-item>
+      <h6> {{messageErrorPassword}}</h6>
+    </ion-col>
+  </ion-row>
+  <ion-row>
+    <ion-col class="signup-col">
+      <div id = 'divbutton'>
+        <button ion-button class="submit-btn" full (click)="signIn()" class = 'buttonlogin'>Entrar</button>
+      </div>
+      <button ion-button class="social-button-facebook" full >
+        <ion-icon ios="logo-facebook" md="logo-facebook"></ion-icon>
+         Continuar com o Facebook
+      </button>
+      <button ion-button class="social-button-google" full >
+        <ion-icon ios="logo-google" md="logo-google"></ion-icon>
+        Continuar com o Google
+      </button>
+      <button ion-button class="social-button-github" full >
+        <ion-icon ios="logo-github" md="logo-github"></ion-icon>
+        Continuar com o GitHub
+      </button>
+      <button ion-button class="social-button-anonimo" full >
+        <ion-icon ios="ios-person" md="md-person"></ion-icon>
+        Entrar em modo Anônimo
+      </button>
+      <button ion-button class="register-btn" block clear (click)="goSignUp()">
+        Não tem uma conta ainda? Registre-se
+      </button>
+      <button ion-button class="register-btn" block clear (click)="resetPassword()">
+        Perdeu sua senha? clique aqui!
+      </button>
+ 
+    </ion-col>
+  </ion-row>
+</form>
