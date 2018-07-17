@@ -1,7 +1,7 @@
 
 <div id = 'cadastro'>
-  <h1>Cadastre-se</h1>
-  <h2><span>B</span><span>U</span><span>R</span><span>E</span><span>A</span><span>U</span></h2>
+  <h1 style = 'color:#8c8a8a;'>Cadastre-se</h1>
+  <h2><span class = 'b'>B</span><span class = 'u'>U</span><span class = 'r'>R</span><span class = 'e'>E</span><span class = 'a'>A</span><span class = 'u'>U</span></h2>
 </div>
 <form [formGroup]="form" novalidate>
   <ion-row>
@@ -23,23 +23,31 @@
 
       <ion-item class="input-custom">
         <ion-label color="light" floating>Senha</ion-label>
-        <ion-input type="password" name="password" formControlName="password"  required></ion-input>       
+        <ion-input type={{typeInputPassword}} name="password" formControlName="password"  required></ion-input>       
       </ion-item>
-
       <h6> {{messageErrorPassword}}</h6>
+      <button ion-button class="register-btn" block clear (click)="viewPassword()" id ='viewPassword'>
+          <ion-icon ios="ios-eye" md="md-eye" *ngIf = '!passwordVisible'>            
+          </ion-icon> <ion-icon ios="ios-eye-off" md="md-eye-off" *ngIf = 'passwordVisible'></ion-icon> 
+          <span style = 'margin-left:7px'>Mostrar Senha</span>
+      </button>
+     
 
     </ion-col>
   </ion-row>
   <ion-row>
     <ion-col class="signup-col">
       <div id = 'divbutton'>
-        <button ion-button class="submit-btn" full (click)="signUp()" class = 'buttonlogin'>Cadstrar</button>
+        <button ion-button class="submit-btn" full (click)="signUp()" class = 'buttonlogin'>Cadastrar</button>
       </div>
      
       <button ion-button class="login-btn" block clear (click)="goSignIn()">
-        Já tem uma conta ainda? Entre
+        Já tem uma conta? Entre
       </button>
 
     </ion-col>
   </ion-row>
 </form>
+<div id = 'imgFundo'>
+  <img src = '../../assets/imgs/bureau.jpeg' width="220px" height="220px">
+</div>

@@ -20,6 +20,8 @@ export class RegisterPage {
   messageError:string = "";
   messageErrorPassword:string = "";
   messageErrorName:string = "";
+  passwordVisible:boolean = false;
+  typeInputPassword:string = 'password';
   constructor(
           public navCtrl: NavController,
           public navParams: NavParams,
@@ -30,6 +32,16 @@ export class RegisterPage {
 
       ) {
         this.createForm();
+  }
+
+  viewPassword(){
+    if(this.passwordVisible){
+      this.passwordVisible = false;
+      this.typeInputPassword = 'password';
+    }else{
+      this.passwordVisible = true;
+      this.typeInputPassword = 'text';
+    }
   }
 
   ionViewDidLoad() {
@@ -85,6 +97,9 @@ export class RegisterPage {
           toast.present();
 
         })
+        this.messageError = "";
+        this.messageErrorPassword = "";
+        this.messageErrorName = "";
     }else{
       console.log(this.form)
       this.messageError = "";

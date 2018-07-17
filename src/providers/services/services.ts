@@ -46,10 +46,16 @@ export class ServicesProvider {
   facebookLogin() {
     const provider = new firebase.auth.FacebookAuthProvider()
     return this.socialSignIn(provider);
+    
   }
 
   private socialSignIn(provider) {
     return this.afAuth.auth.signInWithPopup(provider);
   
   }
+  resetPassword(email:string){
+    return this.afAuth.auth.sendPasswordResetEmail(email);
+    
+  }
+
 }

@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams,LoadingController,ToastController  } from 'ionic-angular';
+import { IonicPage, NavController, NavParams,LoadingController,ToastController,AlertController   } from 'ionic-angular';
 
 import {ServicesProvider} from '../../providers/services/services';
 import {User} from '../../providers/user';
@@ -28,6 +28,13 @@ export class LoginPage {
   user = {} as User;
   messageError:string = "";
   messageErrorPassword:string = "";
+  emailResetPassword:string = "";
+  passwordVisible:boolean = false;
+  typeInputPassword:string = 'password';
+
+
+splash = true;
+
 
   constructor(
           public navCtrl: NavController,
@@ -35,14 +42,25 @@ export class LoginPage {
           private service:ServicesProvider,
           public loadingCtrl: LoadingController,
           private toastCtrl: ToastController,
-          private formBuild:FormBuilder
+          private formBuild:FormBuilder,
+          private alertCtrl:AlertController
         
         ) {
           this.createForm();
   }
 
   ionViewDidLoad() {
-   
+    setTimeout(() =>this.splash=false, 4000);
+
+  }
+  viewPassword(){
+    if(this.passwordVisible){
+      this.passwordVisible = false;
+      this.typeInputPassword = 'password';
+    }else{
+      this.passwordVisible = true;
+      this.typeInputPassword = 'text';
+    }
   }
 
   createForm(){
@@ -242,6 +260,54 @@ export class LoginPage {
       toast.present();
 
     })
+  }
+
+  presentPrompt() {
+    let alert = this.alertCtrl.create({
+      title: 'Recuperar Senha',
+      inputs: [
+        {
+          name: 'email',
+          placeholder: 'Digite seu E-mail.'
+        }
+      ],
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel',
+          handler: data => {
+            console.log('Cancel clicked');
+          }
+        },
+        {
+          text: 'Recuperar',
+          handler: data => {            
+
+              this.service.resetPassword(data.email)
+              .then(success =>{
+                let toast = this.toastCtrl.create({
+                  duration: 3000,
+                  position: "bottom"
+                });
+                toast.setMessage('E-mail enviado com sucesso.');
+                toast.present();                      
+              })
+              .catch(error =>{
+                let toast = this.toastCtrl.create({
+                  duration: 3000,
+                  position: "bottom"
+                });
+                toast.setMessage('E-mail Inválido.');
+                toast.present();              
+              })
+            }             
+           
+          
+          }
+        
+      ]
+    });
+    alert.present();
   }
 
   
