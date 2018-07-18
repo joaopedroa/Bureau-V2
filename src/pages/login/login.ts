@@ -33,7 +33,7 @@ export class LoginPage {
   typeInputPassword:string = 'password';
 
 
-splash = true;
+
 
 
   constructor(
@@ -50,7 +50,7 @@ splash = true;
   }
 
   ionViewDidLoad() {
-    setTimeout(() =>this.splash=false, 4000);
+    
 
   }
   viewPassword(){

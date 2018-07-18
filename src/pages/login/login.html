@@ -1,11 +1,4 @@
 
-<div id="custom-overlay" [style.display]="splash ? 'flex': 'none'">
-     <div class="flb">
-          <div class="Aligner-item Aligner-item--top"></div>
-          <img src="./assets/imgs/bureau.jpeg" width="100%" height="100%">
-          <div class="Aligner-item Aligner-item--bottom"></div>
-     </div>
-</div>
 
 <div id = 'boasvindas'>
   <h1 style = 'color:#8c8a8a;'>Bem Vindo!</h1>
@@ -16,7 +9,7 @@
     <ion-col>
       <ion-item class="input-custom">
         <ion-label color="light" floating>E-mail</ion-label>
-        <ion-input type="email" name="email" formControlName="email" required></ion-input>
+        <ion-input type="email" name="email" formControlName="email" required ></ion-input>
         
       </ion-item>
       <h6> {{messageError}}</h6>
@@ -37,25 +30,26 @@
   <ion-row>
     <ion-col class="signup-col">
       
-      <div id = 'divbutton'>
+     <!-- Social Login --> 
+     <div id = 'divbutton'>
         <button ion-button class="submit-btn" full (click)="signIn()" class = 'buttonlogin'>Entrar</button>
       </div>
-      <button ion-button class="social-button-facebook" full (click) = 'facebookLogin()' >
-        <ion-icon ios="logo-facebook" md="logo-facebook"></ion-icon>
-         Continuar com o Facebook
-      </button>
-      <button ion-button class="social-button-google" full >
+  <ion-grid>
+      <ion-row class= 'rowMediaSocial' *ngIf = '!typePageRegister'>
+        <ion-col col-3 class = 'icons1'>
+        <ion-icon ios="logo-facebook" md="logo-facebook" (click) = 'facebookLogin()'></ion-icon>
+        </ion-col>
+        <ion-col col-3 class = 'icons2'>
+        <ion-icon ios="logo-github" md="logo-github" (click)= 'githubLogin()'></ion-icon>
+        </ion-col>
+        <ion-col col-3 class = 'icons3'>
         <ion-icon ios="logo-google" md="logo-google"></ion-icon>
-        Continuar com o Google
-      </button>
-      <button ion-button class="social-button-github" full (click) = 'githubLogin()' >
-        <ion-icon ios="logo-github" md="logo-github"></ion-icon>
-        Continuar com o GitHub
-      </button>
-      <button ion-button class="social-button-anonimo" full (click) = 'signInAnonymous()' >
-        <ion-icon ios="ios-person" md="md-person"></ion-icon>
-        Entrar em modo Anônimo
-      </button>
+        </ion-col>
+        <ion-col col-3 class = 'icons4'>
+        <ion-icon ios="ios-contact-outline" md="md-contact" (click) = 'signInAnonymous()'></ion-icon>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
       <button ion-button class="register-btn" block clear (click)="goSignUp()">
         Não tem uma conta ainda? Registre-se
       </button>

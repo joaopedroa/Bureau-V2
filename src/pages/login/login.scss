@@ -2,24 +2,24 @@ page-login {
  
   
     .icons1{
-        text-align:right;
+        text-align:center !important;
         font-size:30px;
         color:#43609c;
         cursor: pointer;
     }
     .icons2{
-        text-align:center;
+        text-align:center !important;
         font-size:30px;
         cursor: pointer;
     }
     .icons3{
-        text-align:left;
+        text-align:center !important;
         font-size:30px;
         color:#ea4335;
         cursor: pointer;
     }
     .icons4{
-        text-align:left;
+        text-align:center !important;
         font-size:30px;
         
         cursor: pointer;
@@ -95,61 +95,7 @@ page-login {
     .a{
         color:#a64b4f;
     }
-    //splash
 
-    page-home {
-        #custom-overlay {
-             position: fixed;
-             top: 0;
-             right: 0;
-             bottom: 0;
-             left: 0;
-             z-index: 100000;
-             width:100%;
-             background-color: #002a3e;
-        }
-      
-        .flb {
-             background-color: #3ebffb;
-             height:100%;
-             width:100%;
-     
-             animation: pulse 1slinearforwards;
-     
-             display: flex;
-             align-items: center;
-             justify-content: center;
-         }
-     
-         .Aligner-item {
-             max-width: 50%;
-         }
-     
-         .Aligner-item--top {
-             align-self: flex-start;
-         }
-     
-         .Aligner-item--bottom {
-             align-self: flex-end;
-         }
-     
-         #custom-overlayimg {
-             display: block;
-             margin: 0auto;
-             width: 50%;
-             height: auto;
-             animation: animation3100mslinearinfiniteboth;
-             animation-delay: 1s;
-         }
 
-        @keyframes pulse {
-            0% {
-                opacity:0;
-            }
-            100% {
-                opacity:1;
-            }
-        }
-
-    }
+    
 }

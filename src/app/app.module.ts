@@ -13,6 +13,7 @@ import { ServicesProvider } from '../providers/services/services';
 import {ReactiveFormsModule} from '@angular/forms';
 
 import {AngularFireModule} from 'angularfire2';
+import {AngularFireDatabaseModule} from 'angularfire2/database'
 
 import {AngularFireAuthModule} from 'angularfire2/auth';
 
@@ -20,12 +21,12 @@ import {LoginPage} from '../pages/login/login';
 import{RegisterPage} from '../pages/register/register';
 
 const firebaseAuth = {
-  apiKey: "AIzaSyB4uniUbS1wBc_crXyYVrA-SI8N1s7b_pU",
-  authDomain: "bureau-ionic.firebaseapp.com",
-  databaseURL: "https://bureau-ionic.firebaseio.com",
-  projectId: "bureau-ionic",
-  storageBucket: "bureau-ionic.appspot.com",
-  messagingSenderId: "563959668879" 
+  apiKey: "AIzaSyCYwaSRikXqI8mo9bwc5Vqfg1Tp12dHCHk",
+  authDomain: "entradadadosbureau.firebaseapp.com",
+  databaseURL: "https://entradadadosbureau.firebaseio.com",
+  projectId: "entradadadosbureau",
+  storageBucket: "entradadadosbureau.appspot.com",
+  messagingSenderId: "937777278595"
 };
 
 @NgModule({
@@ -41,7 +42,8 @@ const firebaseAuth = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AngularFireDatabaseModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
