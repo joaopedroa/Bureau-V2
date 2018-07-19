@@ -17,7 +17,7 @@ export class HomePage {
   constructor(public navCtrl: NavController,public database:AngularFireDatabase) {
 
     
-    this.itensBasicos = this.database.list(this.nivelArvore + '/-LHjj5IDSxQaZ89wAL6p').snapshotChanges().map(arr => {
+    this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
           return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
     });
 

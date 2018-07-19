@@ -9,10 +9,10 @@
 
 <ion-content padding>
 
-    <button (click) = 'sairNivel()' *ngIf = 'nivelArvore !== "base"'>voltar</button>
-    <ion-slides pager paginationType="bullets" parallax>
+    <button   ion-button class="register-btn" block clear (click) = 'sairNivel()' *ngIf = 'nivelArvore !== "base"'><ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"></ion-icon></button>
+    <ion-slides pager paginationType="progress" parallax>
       <ion-slide *ngFor = 'let item of itensBasicos | async' >
-         <button (click) = 'entrarNivel(item.$key)'>{{item.dado}}</button> 
+         <button (click) = 'entrarNivel(item.$key)' class = 'buttonsClick'>{{item.dado}}</button> 
       </ion-slide>
        
     </ion-slides>
