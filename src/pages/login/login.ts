@@ -86,8 +86,9 @@ export class LoginPage {
       this.service.emailLogin(this.form.value)
       .then((authUser:any) => {
        console.log(authUser);
-       
-        localStorage.setItem('photoURL',authUser.user.photoURL);
+
+        localStorage.setItem('user', JSON.stringify(authUser.user));
+
         this.navCtrl.setRoot(HomePage).then(() => {
           loading.dismiss();
           let toast = this.toastCtrl.create({
@@ -166,7 +167,7 @@ export class LoginPage {
 
     this.service.anonymousLogin()
     .then((success:any) =>{
-        localStorage.setItem('photoURL',success.user.photoURL);
+       localStorage.setItem('user', JSON.stringify(success.user));
         this.navCtrl.setRoot(HomePage).then(() => {
           loading.dismiss();
           let toast = this.toastCtrl.create({
@@ -197,7 +198,7 @@ export class LoginPage {
     this.service.githubLogin()
     .then(success => {
         console.log(success);
-        localStorage.setItem('photoURL',success.user.photoURL);
+        localStorage.setItem('user', JSON.stringify(success.user));
         
         this.navCtrl.setRoot(HomePage).then(() => {
           
@@ -239,7 +240,7 @@ export class LoginPage {
     this.service.facebookLogin()
     .then(success => {
         console.log(success);
-        localStorage.setItem('photoURL',success.user.photoURL);
+        localStorage.setItem('user', JSON.stringify(success.user));
         this.navCtrl.setRoot(HomePage).then(() => {
           loading.dismiss();
           let toast = this.toastCtrl.create({

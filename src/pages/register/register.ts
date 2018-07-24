@@ -78,7 +78,7 @@ export class RegisterPage {
         .then((user:any) => {                    
          user.user.sendEmailVerification();
          user.user.updateProfile({displayName: this.form.value.displayName});  
-         localStorage.setItem('photoURL',user.user.photoURL);      
+         localStorage.setItem('user', JSON.stringify(user.user));  
           this.navCtrl.setRoot(HomePage).then(() => {
             toast.setMessage(`Olá ${this.form.value.displayName}`);
             loading.dismiss();

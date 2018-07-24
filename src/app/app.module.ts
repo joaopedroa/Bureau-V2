@@ -18,6 +18,7 @@ import {AngularFireDatabaseModule} from 'angularfire2/database'
 import {AngularFireAuthModule} from 'angularfire2/auth';
 
 import {LoginPage} from '../pages/login/login';
+import {ProfilePage} from '../pages/profile/profile';
 import{RegisterPage} from '../pages/register/register';
 
 const firebaseAuth = {
@@ -35,7 +36,8 @@ const firebaseAuth = {
     HomePage,
     ListPage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ProfilePage
   ],
   imports: [
     BrowserModule,
@@ -51,7 +53,8 @@ const firebaseAuth = {
     HomePage,
     ListPage,
     LoginPage,
-    RegisterPage
+    RegisterPage,
+    ProfilePage
   ],
   providers: [
     StatusBar,

@@ -1,18 +1,18 @@
 <ion-menu [content]="content">
   <ion-header>
-    <ion-toolbar>
+    <ion-toolbar  color = 'primary'>
       <ion-title>Menu</ion-title>
     </ion-toolbar>
   </ion-header>
 
-  <ion-content>
+  <ion-content >
     <ion-list>
       <button menuClose ion-item *ngFor="let p of pages" (click)="openPage(p)">
         {{p.title}}
       </button>
     </ion-list>
     <div id = 'imgFundo'>
-        <img src = '../../assets/imgs/bureau.jpeg' width="300px" height="300px">
+        <img src = '../../assets/imgs/bureau.jpeg' width="350px" height="350px">
     </div>
   </ion-content>
   
