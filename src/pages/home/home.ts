@@ -54,7 +54,7 @@ export class HomePage {
         console.log(e.length)
       
       if(this.validaFinal == undefined){
-       this.navCtrl.push(DadosFinaisPage,{nivelArvore:this.nivelArvore});
+       this.navCtrl.setRoot(DadosFinaisPage,{nivelArvore:this.nivelArvore});
        console.log('jp',this.validaFinal)
       }
 
