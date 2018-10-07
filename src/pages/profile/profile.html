@@ -18,7 +18,7 @@
   <ion-card>
     <ion-card-header>
       <h1> Página do Usuário</h1> <br>
-      <ion-fab>
+      <ion-fab (click) = 'uploadPhoto()'>
         <button ion-fab color="primary"><ion-icon ios="ios-camera" md="md-camera"></ion-icon></button>
       </ion-fab>
       <img src = '{{avatar}}' width="200px" height="200px">
@@ -34,7 +34,7 @@
   
       <button ion-item>
         <ion-icon name="call" item-start></ion-icon>
-        {{emailVerified}}
+        {{teste}}
       </button>
   
       <button ion-item>

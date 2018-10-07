@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams, LoadingController, ToastController
 import{FormGroup,FormBuilder,Validators} from '@angular/forms';
 
 import {ServicesProvider} from '../../providers/services/services';
-
+import { AngularFireAuth } from 'angularfire2/auth';
 
 import {HomePage} from '../home/home';
 import {LoginPage} from '../login/login';
@@ -29,7 +29,7 @@ export class RegisterPage {
           private service:ServicesProvider,
           public loadingCtrl: LoadingController,
           private toastCtrl: ToastController,
-
+          private auth:AngularFireAuth
       ) {
         this.createForm();
   }
@@ -77,9 +77,16 @@ export class RegisterPage {
         this.service.createUser(this.form.value)
         .then((user:any) => {                    
          user.user.sendEmailVerification();
-         user.user.updateProfile({displayName: this.form.value.displayName});  
-         localStorage.setItem('user', JSON.stringify(user.user));  
+         user.user.updateProfile({displayName: this.form.value.displayName});
+        
           this.navCtrl.setRoot(HomePage).then(() => {
+
+            localStorage.setItem('user', JSON.stringify(user.user));
+            
+            let usuario:any =  JSON.parse(localStorage.getItem('user'));
+            usuario.displayName = this.form.value.displayName;
+            localStorage.setItem('user', JSON.stringify(usuario));
+
             toast.setMessage(`Olá ${this.form.value.displayName}`);
             loading.dismiss();
             toast.present();
@@ -118,7 +125,7 @@ export class RegisterPage {
       }
 
     }
-    
+    localStorage.setItem('user', JSON.stringify(this.auth.auth.currentUser));
   }
   goSignIn(){
     this.navCtrl.setRoot(LoginPage);

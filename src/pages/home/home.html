@@ -10,11 +10,26 @@
 <ion-content padding>
 
     <button   ion-button class="register-btn" block clear (click) = 'sairNivel()' *ngIf = 'nivelArvore !== "base"'><ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"></ion-icon></button>
-    <ion-slides pager paginationType="progress" parallax>
+    <ion-slides pager paginationType="progress" parallax *ngIf="validaFinal !== undefined && lenghtArray > 0" >
       <ion-slide *ngFor = 'let item of itensBasicos | async' >
-         <button (click) = 'entrarNivel(item.$key)' class = 'buttonsClick'>{{item.dado}}</button> 
+        
+          <button (click) = 'entrarNivel(item.$key)' class = 'buttonsClick' >{{item.dado}}</button> 
+        
+        
       </ion-slide>
-       
+      
     </ion-slides>
- 
+   
+      <ion-card *ngIf="lenghtArray < 1">
+        <img src="../../assets/imgs/notfound.png" width="350px" height="350px"/>
+        <ion-card-content>
+          <ion-card-title>
+            Não possui dados.
+            </ion-card-title>
+          <p>
+            Não foi cadastrado dados para esse tópico.
+          </p>
+        </ion-card-content>
+      </ion-card>
+    
 </ion-content>
