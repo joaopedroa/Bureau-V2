@@ -25,9 +25,11 @@ import {DadosFinaisPage } from '../pages/dados-finais/dados-finais';
 
 import {Camera} from '@ionic-native/camera';
 
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {  ReactiveFormsModule } from '@angular/forms';
 
 import {YoutubePipe} from '../pipes/youtube/youtube';
+
+import {IonicImageViewerModule} from 'ionic-img-viewer';
 
 const firebaseAuth = {
   apiKey: "AIzaSyCYwaSRikXqI8mo9bwc5Vqfg1Tp12dHCHk",
@@ -57,7 +59,9 @@ const firebaseAuth = {
     AngularFireModule.initializeApp(firebaseAuth),
     AngularFireAuthModule,
     ReactiveFormsModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    IonicImageViewerModule
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [

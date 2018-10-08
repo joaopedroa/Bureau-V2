@@ -1,9 +1,9 @@
-import { Component, ViewChild} from '@angular/core';
-import { IonicPage, NavController, NavParams,Slides } from 'ionic-angular';
+import { Component} from '@angular/core';
+import { IonicPage, NavController, NavParams } from 'ionic-angular';
 
-import { DomSanitizer } from '@angular/platform-browser';
 import { Observable } from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
+import { HomePage } from '../home/home';
 
 
 
@@ -41,20 +41,17 @@ export class DadosFinaisPage {
 
 
  
-   this.arrayVideos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
-    return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.tipo === 'Video')
-});;
-
-
-   
-
- 
+    this.arrayVideos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
+      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.tipo === 'Video')
+  });;
 
 
   }
 
 
-
+  goPageHome(){
+    this.navCtrl.setRoot(HomePage);
+  }
 
 
 }

@@ -1,8 +1,13 @@
 <ion-header>
-    <ion-navbar no-border-bottom>
+    <ion-navbar no-border-bottom color = 'primary'>
       <ion-title>
-        Segments
+        Conteúdo
       </ion-title>
+      <ion-buttons end>
+          <button ion-button icon-only (click) = 'goPageHome()'>
+            <ion-icon name='home'></ion-icon>
+          </button>
+        </ion-buttons>
     </ion-navbar>
   
     <ion-toolbar no-border-top>
@@ -15,6 +20,9 @@
         </ion-segment-button>
         <ion-segment-button value="imagens">
           Imagens
+        </ion-segment-button>
+        <ion-segment-button value="texto">
+          Texto
         </ion-segment-button>
       </ion-segment>
     </ion-toolbar>
@@ -29,7 +37,7 @@
               <a href="{{item.url}}">
               <button ion-item  *ngIf=" item.tipo === 'application/pdf' "  >
                 
-                <ion-icon name="cart" item-start></ion-icon>
+                <ion-icon name="copy"></ion-icon>
                 {{item.nome}}
               </button>
             </a>
@@ -52,11 +60,42 @@
      
   
       <ion-list *ngSwitchCase="'imagens'">
-        <div *ngFor="let item of (dadosBasicos | async)">
-            <div *ngIf="item.tipo.indexOf('image') ===0">
-                teste
-            </div>
-        </div>
+        <ion-slides class="image-slider" effect="flip">
+          <div *ngFor="let item of (dadosBasicos | async)">
+              <div *ngIf="item.tipo.indexOf('image') ===0">                  
+                    <ion-slide >
+                        <img src="{{item.url}}" class="thumb-img" imageViewer/>
+                        <div>
+                            <ion-card>               
+                              <ion-card-header>
+                                Clique na imagem para mais detalhes.
+                                </ion-card-header>
+                                <ion-card-content>
+                                    {{item.nome}}
+                                </ion-card-content>              
+                             </ion-card> 
+                          </div>            
+                    </ion-slide>                  
+              </div>              
+          </div>          
+        </ion-slides>
       </ion-list>
+
+      <ion-list *ngSwitchCase="'texto'">
+          <div *ngFor="let item of (dadosBasicos | async)">
+              <div *ngIf="item.tipo === 'Texto'">
+                <ion-card>    
+                    <ion-card-header>
+                      Equipe Bureau
+                    </ion-card-header>
+                  
+                    <ion-card-content>
+                     {{item.valor}}
+                    </ion-card-content>                  
+                  </ion-card>
+              </div>
+            </div>        
+      </ion-list>
+
     </div>
   </ion-content>

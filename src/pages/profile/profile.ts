@@ -110,7 +110,7 @@ export class ProfilePage {
         const image = `data:image/jpeg;base64,${result}`;
 
         const pictures = storage().ref(`profile/${uid}`);
-        let photo = pictures.putString(image, 'data_url'); 
+        //let photo = pictures.putString(image, 'data_url'); 
        
         firebase.storage().ref().child(`profile/${uid}.jpg`).getDownloadURL()
         .then(photo => {
