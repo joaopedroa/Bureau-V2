@@ -4,24 +4,30 @@
       <ion-icon name="menu"></ion-icon>
     </button>
     <ion-title>Home</ion-title>
+    <ion-buttons end *ngIf = 'nivelArvore !== "base"'>
+      <button ion-button icon-only (click) = 'sairNivel()'>
+        <ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"></ion-icon>
+      </button>
+    </ion-buttons>
   </ion-navbar>
 </ion-header>
 
-<ion-content padding>
 
-    <button   ion-button class="register-btn" block clear (click) = 'sairNivel()' *ngIf = 'nivelArvore !== "base"'><ion-icon ios="ios-arrow-round-back" md="md-arrow-round-back"></ion-icon></button>
-    <ion-slides pager paginationType="progress" parallax *ngIf="validaFinal !== undefined && lenghtArray > 0" >
-      <ion-slide *ngFor = 'let item of itensBasicos | async' >
+<ion-content padding>
+    
+    <ion-slides pager paginationType="progress" spaceBetween="10"  pager = "true" *ngIf="validaFinal !== undefined && lenghtArray > 0 " >
+      
+      <ion-slide *ngFor = 'let item of itensBasicos | async' (tap) = 'entrarNivel(item.$key)' >
         
-          <button (click) = 'entrarNivel(item.$key)' class = 'buttonsClick' >{{item.dado}}</button> 
+          <button  class = 'buttonsClick' >{{item.dado}}</button> 
         
         
       </ion-slide>
       
     </ion-slides>
-   
+  
       <ion-card *ngIf="lenghtArray < 1">
-        <img src="../../assets/imgs/notfound.png" width="350px" height="350px"/>
+        <img src="assets/imgs/notfound.png" width="350px" height="350px"/>
         <ion-card-content>
           <ion-card-title>
             Não possui dados.
@@ -31,5 +37,6 @@
           </p>
         </ion-card-content>
       </ion-card>
+      
     
 </ion-content>

@@ -1,15 +1,29 @@
 page-home {
     .buttonsClick{
-        padding:120px;
-        border: solid 20px #d3a0ff;
+        padding:100px;
+        border: solid 20px #262525  ;
         border-radius:50%;
         display: inline-block;
         text-align: center;
-        background:#f3e5ff
+        background:#f3e5ff;
+       
        
     }
     .swiper-pagination-progress .swiper-pagination-progressbar {
-        background:-webkit-linear-gradient(right, #21d4fd, #b721ff, #21d4fd, #b721ff);
+        background:#262525;
       }
+      ion-content{
+        background: url('assets/imgs/ava_c.png') !important;
+        background-repeat: no-repeat;
+        /* Full height */
+        height: 100%; 
 
+        /* Center and scale the image nicely */
+        background-position: top !important;
+        background-repeat: no-repeat !important;
+        background-size: 500px 800px !important;
+          
+         
+      }
+    
 }

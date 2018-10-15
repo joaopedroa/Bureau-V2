@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { Component, ViewChild } from '@angular/core';
+import { NavController, Slides } from 'ionic-angular';
 
 import {AngularFireDatabase} from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
@@ -12,12 +12,14 @@ import {DadosFinaisPage} from '../dados-finais/dados-finais'
 })
 export class HomePage {
 
+  @ViewChild(Slides) _slides:Slides;
   itensBasicos: Observable<any[]>;
-  itensBasicosFilter = {};
+  
   base = 'base';
   nivelArvore:string = 'base';
   validaFinal:string = 'base';
   lenghtArray:number;
+  arrayPath = [];
 
   constructor(public navCtrl: NavController,public database:AngularFireDatabase) {
 
@@ -31,24 +33,26 @@ export class HomePage {
       console.log('lenghtArray',this.lenghtArray)
     });
   
+    console.log(this._slides);
   
   }
+
 
   entrarNivel(key:string){
 
     this.nivelArvore = this.nivelArvore + '/' + key;
-
+   
     console.log(this.nivelArvore);
-
+    
     this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
     });
-
+    
     this.itensBasicos.forEach(e=>{
-     
+     console.log('arq',e)
       this.lenghtArray = e.length;
       if(e.length >0){
-        this.validaFinal = e[0].dado;
+        this.validaFinal = e[0].dado; 
       }
       
         console.log(e.length)
@@ -60,19 +64,24 @@ export class HomePage {
 
     });
 
-    
-
+    this._slides.slideTo(0,1,true);
   }
   sairNivel(){
-    let arrayPath = [];
-    arrayPath = this.nivelArvore.split('/');
-    arrayPath.splice(-1,1);
-    this.nivelArvore = arrayPath.toString().replace(',','/');
-    this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
-      return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
-    });
-   
+    
+    this.arrayPath = this.nivelArvore.split('/');
+    this.arrayPath.splice(-1,1);
+    this.nivelArvore = this.arrayPath.join('/');
+   console.log('sair',this.nivelArvore)
+      this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
+        return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
+      });
+
+      this.itensBasicos.forEach(e =>{
+        this.lenghtArray = e.length;
+      });
     
   }
+
+
 
 }

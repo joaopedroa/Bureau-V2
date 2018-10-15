@@ -46,39 +46,31 @@
         </ion-card> 
      
   
-      
+        <div *ngFor="let item of (arrayVideos | async)">
         <ion-card  *ngSwitchCase="'videos'" >
-          <div *ngFor="let item of (arrayVideos | async)">
+          
             <ion-card-header>
               {{item.titulo}}
               </ion-card-header>
               <ion-card-content>
                   <iframe width="100%" height="315" [src]="item.embed | youtube" frameborder="0" allowfullscreen ></iframe>
               </ion-card-content>
-          </div>  
+           
           </ion-card> 
-     
+        </div>
   
       <ion-list *ngSwitchCase="'imagens'">
-        <ion-slides class="image-slider" effect="flip">
-          <div *ngFor="let item of (dadosBasicos | async)">
-              <div *ngIf="item.tipo.indexOf('image') ===0">                  
-                    <ion-slide >
-                        <img src="{{item.url}}" class="thumb-img" imageViewer/>
-                        <div>
-                            <ion-card>               
-                              <ion-card-header>
-                                Clique na imagem para mais detalhes.
-                                </ion-card-header>
-                                <ion-card-content>
-                                    {{item.nome}}
-                                </ion-card-content>              
-                             </ion-card> 
-                          </div>            
-                    </ion-slide>                  
-              </div>              
-          </div>          
-        </ion-slides>
+        <ion-grid>
+          <ion-row>
+               <div *ngFor="let item of (dadosBasicos | async)">
+                  <ion-col col-6 col-md-4 col-xl-3 *ngIf="item.tipo.indexOf('image') ===0">                
+                      <img src="{{item.url}}" class="thumb-img" imageViewer/>                              
+                  </ion-col>
+                </div>     
+          </ion-row> 
+        </ion-grid>
+                         
+       
       </ion-list>
 
       <ion-list *ngSwitchCase="'texto'">
