@@ -15,7 +15,7 @@ export class ProfilePage {
   user:any;
   avatar:string;
   emailVerified:string;
-  teste;
+  photo:string;
   constructor(
               public navCtrl: NavController,
               public navParams: NavParams,
@@ -25,12 +25,11 @@ export class ProfilePage {
               private camera :Camera
               
             ) {
-    this.user = JSON.parse(localStorage.getItem('user'));    
-    console.log( this.afAuth.auth.currentUser);
-    this.avatar = this.user.photoURL === null?'../../assets/imgs/user.jpg':this.user.photoURL;
-    this.emailVerified = this.user.emailVerified?'E-mail verificado.':'E-mail não verificado';
+    
+    this.avatar = this.afAuth.auth.currentUser.photoURL === null?'../../assets/imgs/user.jpg':this.afAuth.auth.currentUser.photoURL;
+    this.emailVerified = this.afAuth.auth.currentUser.emailVerified?'E-mail verificado.':'E-mail não verificado';
    
-  
+
   }
 
   ionViewDidLoad() {
@@ -58,17 +57,15 @@ export class ProfilePage {
           text: 'Alterar',
           handler: data => {            
 
-            this.afAuth.auth.currentUser.updateProfile({displayName:data.nome,photoURL:this.user.photoURL})
+            this.afAuth.auth.currentUser.updateProfile({displayName:data.nome,photoURL:this.afAuth.auth.currentUser.photoURL})
               .then(success =>{
                 let toast = this.toastCtrl.create({
                   duration: 3000,
                   position: "bottom"
                 });
 
-                localStorage.setItem('user', JSON.stringify(this.afAuth.auth.currentUser));
-                this.user = JSON.parse(localStorage.getItem('user'));
-                this.avatar = this.user.photoURL === null?'/src/assets/imgs/user.jpg':this.user.photoURL;
-                this.emailVerified = this.user.emailVerified?'E-mail verificado.':'E-mail não verificado';
+                this.avatar = this.afAuth.auth.currentUser.photoURL === null?'../../assets/imgs/user.jpg':this.afAuth.auth.currentUser.photoURL;
+                this.emailVerified = this.afAuth.auth.currentUser.emailVerified?'E-mail verificado.':'E-mail não verificado';
 
                 toast.setMessage('Nome alterado com sucesso.');
                 toast.present();                      
@@ -93,8 +90,9 @@ export class ProfilePage {
   }
 
   async uploadPhoto(){
-    let user:any = JSON.parse(localStorage.getItem('user'));
-    const uid = user.uid;
+   
+    const uid = this.afAuth.auth.currentUser.uid;
+    let photoURL:string;
     try{
         const options: CameraOptions = {
           quality: 50,
@@ -102,7 +100,8 @@ export class ProfilePage {
           targetWidth:600,
           destinationType: this.camera.DestinationType.DATA_URL,
           encodingType: this.camera.EncodingType.JPEG,
-          mediaType: this.camera.MediaType.PICTURE
+          mediaType: this.camera.MediaType.PICTURE,
+          correctOrientation: true
         }
 
         const result = await this.camera.getPicture(options);
@@ -110,19 +109,26 @@ export class ProfilePage {
         const image = `data:image/jpeg;base64,${result}`;
 
         const pictures = storage().ref(`profile/${uid}`);
-        //let photo = pictures.putString(image, 'data_url'); 
+        pictures.putString(image, 'data_url'); 
        
-        firebase.storage().ref().child(`profile/${uid}.jpg`).getDownloadURL()
-        .then(photo => {
-          this.teste = photo;
-        this.afAuth.auth.currentUser.updateProfile({displayName:user.displayName,photoURL:String(photo)});
+        pictures.getDownloadURL().then(photo =>{
+          this.photo = JSON.stringify(photo).replace(/[\\"]/g,'');
+          
 
-        localStorage.setItem('user', JSON.stringify(this.afAuth.auth.currentUser));
-        this.user = JSON.parse(localStorage.getItem('user'));
-        this.avatar = this.user.photoURL === null?'/src/assets/imgs/user.jpg':this.user.photoURL;
-        this.emailVerified = this.user.emailVerified?'E-mail verificado.':'E-mail não verificado';
-        
+          this.afAuth.auth.currentUser.updateProfile({displayName:this.afAuth.auth.currentUser.displayName,photoURL:this.photo}).then(e =>{
+            this.avatar = this.afAuth.auth.currentUser.photoURL === null?'../../assets/imgs/user.jpg':this.afAuth.auth.currentUser.photoURL;
+            this.emailVerified = this.afAuth.auth.currentUser.emailVerified?'E-mail verificado.':'E-mail não verificado';
+  
+          });
+
+
         });
+        
+        
+
+     
+     
+       
 
 
     }

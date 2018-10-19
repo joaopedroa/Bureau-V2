@@ -4,7 +4,7 @@ import { IonicPage, NavController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
 import {AngularFireDatabase} from 'angularfire2/database';
 import { HomePage } from '../home/home';
-
+import {Vibration} from  '@ionic-native/vibration';
 
 
 @IonicPage()
@@ -28,8 +28,8 @@ export class DadosFinaisPage {
   constructor(
               public navCtrl: NavController, 
               public navParams: NavParams,
-              public database:AngularFireDatabase
-              
+              public database:AngularFireDatabase,
+              public vibrate:Vibration
             ) {
   
     this.nivelArvore = this.navParams.get('nivelArvore');
@@ -50,6 +50,7 @@ export class DadosFinaisPage {
 
 
   goPageHome(){
+    this.vibrate.vibrate(50)
     this.navCtrl.setRoot(HomePage);
   }
 

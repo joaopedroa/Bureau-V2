@@ -1,0 +1,32 @@
+page-preparar-dados {
+    .preparar-dados {
+        h2 {
+            text-align: center;
+            font-size: 16px;
+            animation: flash 1s linear infinite;
+            padding-bottom: 0;
+        }
+    
+        p {
+            font-size: 14px;
+        }
+        
+        @keyframes flash {
+        50% {
+            opacity: 0;
+            }
+        }
+        
+        .animateLine {
+            text-align: center;
+            height: 2px;
+            width: 100%;
+            background-color: #4fe3b7;
+        }
+        
+    }
+    
+    .grayscale{
+        padding-top: 50px;
+    }
+}

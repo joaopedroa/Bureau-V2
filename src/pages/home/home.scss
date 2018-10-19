@@ -5,15 +5,16 @@ page-home {
         border-radius:50%;
         display: inline-block;
         text-align: center;
-        background:#f3e5ff;
-       
+        background-image:#686868 !important;
+        
        
     }
+  
     .swiper-pagination-progress .swiper-pagination-progressbar {
         background:#262525;
       }
       ion-content{
-        background: url('assets/imgs/ava_c.png') !important;
+        background-image: url('../assets/imgs/montanhas.jpg') !important;
         background-repeat: no-repeat;
         /* Full height */
         height: 100%; 

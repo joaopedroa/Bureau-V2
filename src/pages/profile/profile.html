@@ -28,18 +28,18 @@
     <ion-list>
       <button ion-item (click) = 'alertUpdateNome()'>
         <ion-icon name="person" item-start></ion-icon>
-        {{user.displayName}}
+        {{afAuth.auth.currentUser.displayName}}
         
       </button>
   
       <button ion-item>
-        <ion-icon name="call" item-start></ion-icon>
-        {{teste}}
+        <ion-icon name="at" item-start></ion-icon>
+        {{emailVerified}}
       </button>
   
       <button ion-item>
         <ion-icon name="mail" item-start></ion-icon>
-        {{user.email}}
+        {{afAuth.auth.currentUser.email}}
       </button>  
   
     </ion-list>

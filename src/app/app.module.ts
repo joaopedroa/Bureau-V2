@@ -21,7 +21,7 @@ import {LoginPage} from '../pages/login/login';
 import {ProfilePage} from '../pages/profile/profile';
 import{RegisterPage} from '../pages/register/register';
 import {DadosFinaisPage } from '../pages/dados-finais/dados-finais';
-
+import { PrepararDadosPage } from '../pages/preparar-dados/preparar-dados';
 
 import {Camera} from '@ionic-native/camera';
 
@@ -30,6 +30,8 @@ import {  ReactiveFormsModule } from '@angular/forms';
 import {YoutubePipe} from '../pipes/youtube/youtube';
 
 import {IonicImageViewerModule} from 'ionic-img-viewer';
+
+import {Vibration} from  '@ionic-native/vibration';
 
 const firebaseAuth = {
   apiKey: "AIzaSyCYwaSRikXqI8mo9bwc5Vqfg1Tp12dHCHk",
@@ -49,7 +51,8 @@ const firebaseAuth = {
     RegisterPage,
     ProfilePage,
     DadosFinaisPage,
-    YoutubePipe
+    YoutubePipe,
+    PrepararDadosPage
     
     
   ],
@@ -71,7 +74,8 @@ const firebaseAuth = {
     LoginPage,
     RegisterPage,
     ProfilePage,
-    DadosFinaisPage
+    DadosFinaisPage,
+    PrepararDadosPage
      
   ],
   providers: [
@@ -79,7 +83,8 @@ const firebaseAuth = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ServicesProvider,
-    Camera
+    Camera,
+    Vibration
   ]
 })
 export class AppModule {}

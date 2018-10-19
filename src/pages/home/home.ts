@@ -4,7 +4,8 @@ import { NavController, Slides } from 'ionic-angular';
 import {AngularFireDatabase} from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import {DadosFinaisPage} from '../dados-finais/dados-finais'
-
+import {Vibration} from  '@ionic-native/vibration';
+import { PrepararDadosPage } from '../preparar-dados/preparar-dados';
 
 @Component({
   selector: 'page-home',
@@ -20,8 +21,10 @@ export class HomePage {
   validaFinal:string = 'base';
   lenghtArray:number;
   arrayPath = [];
+  user:any;
+  userName:any;
 
-  constructor(public navCtrl: NavController,public database:AngularFireDatabase) {
+  constructor(public navCtrl: NavController,public database:AngularFireDatabase, public vibrate:Vibration) {
 
     
     this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
@@ -29,12 +32,11 @@ export class HomePage {
     });
 
     this.itensBasicos.forEach(e =>{
-      this.lenghtArray = e.length;
-      console.log('lenghtArray',this.lenghtArray)
-    });
-  
-    console.log(this._slides);
-  
+      this.lenghtArray = e.length;      
+    });  
+    
+    this.user = JSON.parse(localStorage.getItem('user'));   
+    this.userName = this.user.displayName;
   }
 
 
@@ -44,10 +46,14 @@ export class HomePage {
    
     console.log(this.nivelArvore);
     
+    this.vibrate.vibrate(50);
+     
+ 
     this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
     });
-    
+
+
     this.itensBasicos.forEach(e=>{
      console.log('arq',e)
       this.lenghtArray = e.length;
@@ -58,7 +64,7 @@ export class HomePage {
         console.log(e.length)
       
       if(this.validaFinal == undefined){
-       this.navCtrl.setRoot(DadosFinaisPage,{nivelArvore:this.nivelArvore});
+       this.navCtrl.setRoot(PrepararDadosPage,{nivelArvore:this.nivelArvore});
        console.log('jp',this.validaFinal)
       }
 
@@ -67,7 +73,7 @@ export class HomePage {
     this._slides.slideTo(0,1,true);
   }
   sairNivel(){
-    
+    this.vibrate.vibrate(50);
     this.arrayPath = this.nivelArvore.split('/');
     this.arrayPath.splice(-1,1);
     this.nivelArvore = this.arrayPath.join('/');
