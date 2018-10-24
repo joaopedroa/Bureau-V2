@@ -14,17 +14,20 @@ page-home {
         background:#262525;
       }
       ion-content{
-        background-image: url('../assets/imgs/montanhas.jpg') !important;
+       
+        background-image: url('../assets/imgs/predio_6.png');
+        background-size: 100% 200px;
+        background-position: bottom;
         background-repeat: no-repeat;
-        /* Full height */
-        height: 100%; 
-
-        /* Center and scale the image nicely */
-        background-position: top !important;
-        background-repeat: no-repeat !important;
-        background-size: 500px 800px !important;
           
          
+      }
+      .slide-zoom{
+          margin-bottom:100px;
+
+      }
+      .swiper-pagination.swiper-pagination-clickable.swiper-pagination-bullets{
+        margin-bottom:120px;
       }
     
 }

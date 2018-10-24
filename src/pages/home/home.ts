@@ -1,33 +1,42 @@
 import { Component, ViewChild } from '@angular/core';
-import { NavController, Slides } from 'ionic-angular';
+import { NavController, Slides,NavParams } from 'ionic-angular';
 
 import {AngularFireDatabase} from 'angularfire2/database';
 import { Observable } from 'rxjs/Observable';
 import {DadosFinaisPage} from '../dados-finais/dados-finais'
 import {Vibration} from  '@ionic-native/vibration';
 import { PrepararDadosPage } from '../preparar-dados/preparar-dados';
+import { AngularFireAuth } from 'angularfire2/auth';
+import { NivelArvore } from '../../providers/nivelArvore';
 
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
 })
+
 export class HomePage {
 
   @ViewChild(Slides) _slides:Slides;
   itensBasicos: Observable<any[]>;
   
   base = 'base';
-  nivelArvore:string = 'base';
+  
+  nivel:any;
   validaFinal:string = 'base';
   lenghtArray:number;
   arrayPath = [];
   user:any;
   userName:any;
 
-  constructor(public navCtrl: NavController,public database:AngularFireDatabase, public vibrate:Vibration) {
+  constructor(
+                public navCtrl: NavController,
+                public database:AngularFireDatabase, 
+                public vibrate:Vibration,
+                public navParams: NavParams,
+                private afAuth: AngularFireAuth
+              ) {
 
-    
-    this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
+    this.itensBasicos = this.database.list(NivelArvore.nivelArvore).snapshotChanges().map(arr => {
           return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
     });
 
@@ -35,21 +44,20 @@ export class HomePage {
       this.lenghtArray = e.length;      
     });  
     
-    this.user = JSON.parse(localStorage.getItem('user'));   
-    this.userName = this.user.displayName;
+   
   }
 
 
   entrarNivel(key:string){
 
-    this.nivelArvore = this.nivelArvore + '/' + key;
+    NivelArvore.nivelArvore = NivelArvore.nivelArvore + '/' + key;
    
-    console.log(this.nivelArvore);
+    console.log(NivelArvore.nivelArvore);
     
     this.vibrate.vibrate(50);
      
  
-    this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
+    this.itensBasicos = this.database.list(NivelArvore.nivelArvore).snapshotChanges().map(arr => {
       return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
     });
 
@@ -64,7 +72,7 @@ export class HomePage {
         console.log(e.length)
       
       if(this.validaFinal == undefined){
-       this.navCtrl.setRoot(PrepararDadosPage,{nivelArvore:this.nivelArvore});
+       this.navCtrl.setRoot(PrepararDadosPage,{nivelArvore:NivelArvore.nivelArvore});
        console.log('jp',this.validaFinal)
       }
 
@@ -74,11 +82,11 @@ export class HomePage {
   }
   sairNivel(){
     this.vibrate.vibrate(50);
-    this.arrayPath = this.nivelArvore.split('/');
+    this.arrayPath = NivelArvore.nivelArvore.split('/');
     this.arrayPath.splice(-1,1);
-    this.nivelArvore = this.arrayPath.join('/');
-   console.log('sair',this.nivelArvore)
-      this.itensBasicos = this.database.list(this.nivelArvore).snapshotChanges().map(arr => {
+    NivelArvore.nivelArvore = this.arrayPath.join('/');
+   console.log('sair',NivelArvore.nivelArvore)
+      this.itensBasicos = this.database.list(NivelArvore.nivelArvore).snapshotChanges().map(arr => {
         return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
       });
 

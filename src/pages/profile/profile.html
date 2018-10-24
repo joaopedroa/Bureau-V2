@@ -21,23 +21,23 @@
       <ion-fab (click) = 'uploadPhoto()'>
         <button ion-fab color="primary"><ion-icon ios="ios-camera" md="md-camera"></ion-icon></button>
       </ion-fab>
-      <img src = '{{avatar}}' width="200px" height="200px">
+      <img src = '{{avatar}}' width="200px" height="200px" imageViewer>
       
     </ion-card-header>
   
     <ion-list>
       <button ion-item (click) = 'alertUpdateNome()'>
         <ion-icon name="person" item-start></ion-icon>
-        {{afAuth.auth.currentUser.displayName}}
-        
+        <span *ngIf="!afAuth.auth.currentUser.isAnonymous">{{afAuth.auth.currentUser.displayName}}</span>
+        <span *ngIf="afAuth.auth.currentUser.isAnonymous">Usuário Anônimo</span>
       </button>
   
-      <button ion-item>
+      <button ion-item *ngIf = "!afAuth.auth.currentUser.isAnonymous">
         <ion-icon name="at" item-start></ion-icon>
         {{emailVerified}}
       </button>
   
-      <button ion-item>
+      <button ion-item *ngIf = "!afAuth.auth.currentUser.isAnonymous">
         <ion-icon name="mail" item-start></ion-icon>
         {{afAuth.auth.currentUser.email}}
       </button>  
@@ -45,5 +45,6 @@
     </ion-list>
   </ion-card>
 
+    
 
 </ion-content>

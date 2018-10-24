@@ -9,6 +9,7 @@ import {ProfilePage} from '../pages/profile/profile';
 import {LoginPage} from '../pages/login/login'
 import { AngularFireAuth } from 'angularfire2/auth';
 import {ServicesProvider} from '../providers/services/services';
+import { NivelArvore } from '../providers/nivelArvore';
 
 @Component({
   templateUrl: 'app.html'
@@ -16,10 +17,10 @@ import {ServicesProvider} from '../providers/services/services';
 export class MyApp {
   @ViewChild(Nav) nav: Nav;
 
- 
-
+  
   rootPage: any;
 
+  arrayPath:any;
   pages: Array<{title: string, component: any}>;
 
   constructor(
@@ -31,7 +32,8 @@ export class MyApp {
               public alertCtrl: AlertController,
               private service:ServicesProvider
             ) {
-    
+   
+    console.log(NivelArvore.nivelArvore)
     const observer = afAuth.authState.subscribe(user => {
       if(user) {
         this.rootPage = HomePage;
@@ -66,7 +68,7 @@ export class MyApp {
       let nav = this.app.getActiveNavs()[0];
       let activeView = nav.getActive();                
       // Checks if can go back before show up the alert
-      if(activeView.name === 'HomePage') {
+      if(activeView.name === 'HomePage' && NivelArvore.nivelArvore === 'base') {
         const alert = this.alertCtrl.create({
           title: 'Aviso',
           message: 'Fechar o app?',
@@ -84,7 +86,13 @@ export class MyApp {
           }]
       });
       alert.present();             
-      }else {
+      }else if(activeView.name === 'HomePage' && NivelArvore.nivelArvore !== 'base'){
+        this.arrayPath = NivelArvore.nivelArvore.split('/');
+        this.arrayPath.splice(-1,1);
+        NivelArvore.nivelArvore = this.arrayPath.join('/');
+        this.nav.setRoot(HomePage);
+      }else{
+        NivelArvore.nivelArvore ='base';
         this.nav.setRoot(HomePage);
       }
 
@@ -95,6 +103,9 @@ export class MyApp {
   openPage(page) {
     // Reset the content nav to have just this page
     // we wouldn't want the back button to show in this scenario
+    if(page.component === HomePage){
+      NivelArvore.nivelArvore ='base';
+    }
     this.nav.setRoot(page.component);
   }
 }

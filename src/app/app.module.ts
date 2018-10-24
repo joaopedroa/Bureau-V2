@@ -10,7 +10,9 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { ServicesProvider } from '../providers/services/services';
 
-
+import {FileChooser} from '@ionic-native/file-chooser';
+import {File} from '@ionic-native/file';
+import { InAppBrowser } from '@ionic-native/in-app-browser';
 
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireDatabaseModule} from 'angularfire2/database'
@@ -32,6 +34,9 @@ import {YoutubePipe} from '../pipes/youtube/youtube';
 import {IonicImageViewerModule} from 'ionic-img-viewer';
 
 import {Vibration} from  '@ionic-native/vibration';
+
+import {FileTransfer} from '@ionic-native/file-transfer';
+import {DocumentViewer} from '@ionic-native/document-viewer';
 
 const firebaseAuth = {
   apiKey: "AIzaSyCYwaSRikXqI8mo9bwc5Vqfg1Tp12dHCHk",
@@ -83,8 +88,15 @@ const firebaseAuth = {
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     ServicesProvider,
+   
     Camera,
-    Vibration
+    Vibration,
+    File,
+    FileChooser,
+    FileTransfer,
+    DocumentViewer,
+    InAppBrowser
+
   ]
 })
 export class AppModule {}

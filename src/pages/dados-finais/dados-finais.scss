@@ -8,15 +8,10 @@ page-dados-finais {
         height: 150px;
     }
     ion-content{
-        background-image: url('../assets/imgs/branco.jpg') !important;
-        background-repeat: no-repeat;
-        /* Full height */
-        height: 100%; 
-
-        /* Center and scale the image nicely */
-        background-position: top !important;
-        background-repeat: no-repeat !important;
-        background-size: 500px 800px !important;
+        background: linear-gradient(#dddddd, #ffffff, #a0a0a0) !important;
+        
+ 
+       
           
          
       }
@@ -27,5 +22,8 @@ page-dados-finais {
           text-align: center;
           text-transform: uppercase;
          
+      }
+      h6{
+          margin-left:20px;
       }
 }
