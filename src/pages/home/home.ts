@@ -31,6 +31,7 @@ export class HomePage {
   arrayKeys = [];
   arrayTotal = [];
   tamanho;
+  aux:number;
   constructor(
                 public navCtrl: NavController,
                 public database:AngularFireDatabase, 
@@ -42,19 +43,20 @@ export class HomePage {
     this.itensBasicos = this.database.list(NivelArvore.nivelArvore).snapshotChanges().map(arr => {
           return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
     });
-
+this.nivel = NivelArvore.nivelArvore;
     this.itensBasicos.forEach(e =>{
       this.lenghtArray = e.length;  
      console.log('itens',e) ;
     });  
     
-    this.steps();
+    
    
   }
 
   counter(i:number){
     return new Array(i);
   }
+
 steps(){
   this.itensBasicos.forEach(e=>{  
     
@@ -71,6 +73,7 @@ steps(){
         this.tamanho++;
       }
     this.arrayTotal.push(this.tamanho);
+    
     }
     console.log('array',this.arrayTotal);
   });
@@ -79,8 +82,13 @@ steps(){
 
   entrarNivel(key:string){
 
+    if(NivelArvore.nivelArvore === 'base'){
+      this.aux = this._slides.clickedIndex;      
+   }
+ 
     NivelArvore.nivelArvore = NivelArvore.nivelArvore + '/' + key;
-   
+    this.nivel = NivelArvore.nivelArvore;
+  
     console.log(NivelArvore.nivelArvore);
     
     this.vibrate.vibrate(50);
@@ -106,8 +114,12 @@ steps(){
       }
 
     });
-
+    
     this._slides.slideTo(0,1,true);
+  }
+  ionViewDidLoad() {
+    this.steps();
+    console.log('ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt');
   }
   sairNivel(){
     this.vibrate.vibrate(50);

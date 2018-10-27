@@ -14,9 +14,13 @@
     <ion-slides pager spaceBetween="10"  pager = "true" *ngIf="validaFinal !== undefined && lenghtArray > 0 " >
       
       <ion-slide *ngFor = 'let item of itensBasicos | async; let i = index'  >
-          <ul>
-            <li *ngFor = 'let item of counter(arrayTotal[i]) | async'>2</li>
+          <ul *ngIf="nivel === 'base'">
+            <li *ngFor = 'let item of counter(arrayTotal[i]); let u = index'>{{u}} </li>
           </ul>
+          <ul *ngIf="nivel !== 'base'">
+              <li *ngFor = 'let item of counter(arrayTotal[aux]); let u = index'>{{u}}</li>
+          </ul>
+       
           <button  class = 'buttonsClick' (click) = 'entrarNivel(item.$key)' >{{item.dado}}</button> 
           
         
