@@ -18,7 +18,7 @@ export class HomePage {
 
   @ViewChild(Slides) _slides:Slides;
   itensBasicos: Observable<any[]>;
-  
+  itens: Observable<any[]>;
   base = 'base';
   
   nivel:any;
@@ -27,7 +27,10 @@ export class HomePage {
   arrayPath = [];
   user:any;
   userName:any;
-
+  arrayValues = [];
+  arrayKeys = [];
+  arrayTotal = [];
+  tamanho;
   constructor(
                 public navCtrl: NavController,
                 public database:AngularFireDatabase, 
@@ -41,12 +44,38 @@ export class HomePage {
     });
 
     this.itensBasicos.forEach(e =>{
-      this.lenghtArray = e.length;      
+      this.lenghtArray = e.length;  
+     console.log('itens',e) ;
     });  
     
+    this.steps();
    
   }
 
+  counter(i:number){
+    return new Array(i);
+  }
+steps(){
+  this.itensBasicos.forEach(e=>{  
+    
+
+    for(var x=0;x<e.length;x++){
+      this.tamanho = 1;       
+      this.arrayValues = Object["values"](e[x]);
+      let validation = e[x].dado; 
+       
+      
+      while(validation !== undefined) {       
+        validation = this.arrayValues[0].dado;
+        this.arrayValues = Object["values"](this.arrayValues[0]);
+        this.tamanho++;
+      }
+    this.arrayTotal.push(this.tamanho);
+    }
+    console.log('array',this.arrayTotal);
+  });
+
+}
 
   entrarNivel(key:string){
 
