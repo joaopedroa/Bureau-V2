@@ -30,8 +30,11 @@ export class HomePage {
   arrayValues = [];
   arrayKeys = [];
   arrayTotal = [];
+  arrayAntigo = [];
   tamanho;
   aux:number;
+  postionStep:number;
+  clicked:number;
   constructor(
                 public navCtrl: NavController,
                 public database:AngularFireDatabase, 
@@ -48,9 +51,9 @@ this.nivel = NivelArvore.nivelArvore;
       this.lenghtArray = e.length;  
      console.log('itens',e) ;
     });  
+    NivelArvore.postionSteps = 0;
+    this.postionStep = NivelArvore.postionSteps;
     
-    
-   
   }
 
   counter(i:number){
@@ -59,7 +62,7 @@ this.nivel = NivelArvore.nivelArvore;
 
 steps(){
   this.itensBasicos.forEach(e=>{  
-    
+    this.postionStep = NivelArvore.postionSteps ;
 
     for(var x=0;x<e.length;x++){
       this.tamanho = 1;       
@@ -75,21 +78,24 @@ steps(){
     this.arrayTotal.push(this.tamanho);
     
     }
-    console.log('array',this.arrayTotal);
+    
   });
 
 }
 
   entrarNivel(key:string){
 
-    if(NivelArvore.nivelArvore === 'base'){
-      this.aux = this._slides.clickedIndex;      
-   }
+    NivelArvore.postionSteps++;
+    this.postionStep = NivelArvore.postionSteps;
+    
+    let click =  this.clicked==undefined?-99:this.clicked;
+    this.clicked =  this._slides.clickedIndex;
+   
+   
  
     NivelArvore.nivelArvore = NivelArvore.nivelArvore + '/' + key;
-    this.nivel = NivelArvore.nivelArvore;
-  
-    console.log(NivelArvore.nivelArvore);
+    this.nivel = NivelArvore.nivelArvore; 
+    
     
     this.vibrate.vibrate(50);
      
@@ -100,33 +106,38 @@ steps(){
 
 
     this.itensBasicos.forEach(e=>{
-     console.log('arq',e)
+     
       this.lenghtArray = e.length;
       if(e.length >0){
         this.validaFinal = e[0].dado; 
       }
       
-        console.log(e.length)
+       
       
       if(this.validaFinal == undefined){
        this.navCtrl.setRoot(PrepararDadosPage,{nivelArvore:NivelArvore.nivelArvore});
-       console.log('jp',this.validaFinal)
+       
       }
 
     });
-    
+    if(click === -99 || click !== this.clicked){
+    this.arrayAntigo = this.arrayTotal ;
+    }
+    this.arrayTotal = [];
+    this.steps();   
     this._slides.slideTo(0,1,true);
   }
+
   ionViewDidLoad() {
-    this.steps();
-    console.log('ttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt');
+    this.steps();   
   }
+
   sairNivel(){
     this.vibrate.vibrate(50);
     this.arrayPath = NivelArvore.nivelArvore.split('/');
     this.arrayPath.splice(-1,1);
     NivelArvore.nivelArvore = this.arrayPath.join('/');
-   console.log('sair',NivelArvore.nivelArvore)
+  
       this.itensBasicos = this.database.list(NivelArvore.nivelArvore).snapshotChanges().map(arr => {
         return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
       });

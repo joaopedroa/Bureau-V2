@@ -1,3 +1,4 @@
 export let NivelArvore = {
-    nivelArvore : 'base'
+    nivelArvore : 'base',
+    postionSteps: 0
   } 
