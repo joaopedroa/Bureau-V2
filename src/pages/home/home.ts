@@ -32,8 +32,6 @@ export class HomePage {
   arrayTotal = [];
   arrayAntigo = [];
   tamanho;
-  aux:number;
-  postionStep:number;
   clicked:number;
   constructor(
                 public navCtrl: NavController,
@@ -51,8 +49,7 @@ this.nivel = NivelArvore.nivelArvore;
       this.lenghtArray = e.length;  
      console.log('itens',e) ;
     });  
-    NivelArvore.postionSteps = 0;
-    this.postionStep = NivelArvore.postionSteps;
+
     
   }
 
@@ -62,7 +59,7 @@ this.nivel = NivelArvore.nivelArvore;
 
 steps(){
   this.itensBasicos.forEach(e=>{  
-    this.postionStep = NivelArvore.postionSteps ;
+    
 
     for(var x=0;x<e.length;x++){
       this.tamanho = 1;       
@@ -83,10 +80,9 @@ steps(){
 
 }
 
-  entrarNivel(key:string){
+  entrarNivel(key:string,dado:string){
 
-    NivelArvore.postionSteps++;
-    this.postionStep = NivelArvore.postionSteps;
+ 
     
     let click =  this.clicked==undefined?-99:this.clicked;
     this.clicked =  this._slides.clickedIndex;
@@ -106,6 +102,19 @@ steps(){
 
 
     this.itensBasicos.forEach(e=>{
+/*
+      let tamanho = document.getElementsByClassName(e[0].dado)[0].childElementCount;
+      let val = 0;
+    
+      for(let x=0;x<tamanho-1;x++){
+       if(document.getElementsByClassName(e[0].dado)[0].children[x].className == 'active' && val === 0){
+         
+         document.getElementsByClassName(e[0].dado)[0].children[x].removeAttribute('class');
+         document.getElementsByClassName(e[0].dado)[0].children[x+1].setAttribute('class','active');
+         val = 1;
+       }
+      }
+*/
      
       this.lenghtArray = e.length;
       if(e.length >0){
@@ -120,6 +129,7 @@ steps(){
       }
 
     });
+
     if(click === -99 || click !== this.clicked){
     this.arrayAntigo = this.arrayTotal ;
     }
