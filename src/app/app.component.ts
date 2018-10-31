@@ -90,12 +90,11 @@ export class MyApp {
         this.arrayPath = NivelArvore.nivelArvore.split('/');
         this.arrayPath.splice(-1,1);
         NivelArvore.nivelArvore = this.arrayPath.join('/');
-        NivelArvore.postionSteps--;
-        this.nav.setRoot(HomePage);
+        NivelArvore.positionSteps--;
+        this.nav.setRoot(HomePage,{iniciarPostion:false});
       }else{
-        NivelArvore.nivelArvore ='base';
-        NivelArvore.postionSteps = 0;
-        this.nav.setRoot(HomePage);
+        NivelArvore.nivelArvore ='base';        
+        this.nav.setRoot(HomePage,{iniciarPostion:true});
       }
 
       

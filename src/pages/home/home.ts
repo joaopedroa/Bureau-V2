@@ -19,20 +19,18 @@ export class HomePage {
   @ViewChild(Slides) _slides:Slides;
   itensBasicos: Observable<any[]>;
   itens: Observable<any[]>;
-  base = 'base';
-  
+  base = 'base';  
   nivel:any;
   validaFinal:string = 'base';
   lenghtArray:number;
   arrayPath = [];
-  user:any;
-  userName:any;
   arrayValues = [];
-  arrayKeys = [];
   arrayTotal = [];
   arrayAntigo = [];
   tamanho;
   clicked:number;
+  positionSteps:number;
+
   constructor(
                 public navCtrl: NavController,
                 public database:AngularFireDatabase, 
@@ -41,51 +39,64 @@ export class HomePage {
                 private afAuth: AngularFireAuth
               ) {
 
-    this.itensBasicos = this.database.list(NivelArvore.nivelArvore).snapshotChanges().map(arr => {
-          return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
-    });
-this.nivel = NivelArvore.nivelArvore;
-    this.itensBasicos.forEach(e =>{
-      this.lenghtArray = e.length;  
-     console.log('itens',e) ;
-    });  
-
-    
+               console.log('inicio',NivelArvore.nivelArvore);
+            
+               this.itensBasicos = this.database.list(NivelArvore.nivelArvore).snapshotChanges().map(arr => {
+                return arr.map(snap => Object.assign(snap.payload.val(), { $key: snap.key }) ).filter(i => i.$key !== 'dado' && i.$key !== 'final' && i.$key !== 'tipo')
+          });
+              this.nivel = NivelArvore.nivelArvore;
+              this.arrayAntigo = NivelArvore.arrayAntigo;
+              if(this.navParams.get('iniciarPostion') || this.navParams.get('iniciarPostion') === undefined){            
+                NivelArvore.positionSteps = 0;
+                 
+              }
+              this.positionSteps = NivelArvore.positionSteps;
+              this.itensBasicos.forEach(e =>{
+                this.lenghtArray = e.length;  
+              console.log('itens',e) ;
+              });  
+              
+              this.steps(); 
   }
 
   counter(i:number){
     return new Array(i);
   }
 
-steps(){
-  this.itensBasicos.forEach(e=>{  
+  steps(){
     
-
-    for(var x=0;x<e.length;x++){
-      this.tamanho = 1;       
-      this.arrayValues = Object["values"](e[x]);
-      let validation = e[x].dado; 
-       
+    NivelArvore.arrayTotal = [];
+    
+    this.itensBasicos.forEach(e=>{  
       
-      while(validation !== undefined) {       
-        validation = this.arrayValues[0].dado;
-        this.arrayValues = Object["values"](this.arrayValues[0]);
-        this.tamanho++;
-      }
-    this.arrayTotal.push(this.tamanho);
-    
-    }
-    
-  });
 
-}
+      for(var x=0;x<e.length;x++){
+        this.tamanho = 1;       
+        this.arrayValues = Object["values"](e[x]);
+        let validation = e[x].dado; 
+        
+        
+        while(validation !== undefined) {       
+          validation = this.arrayValues[0].dado;
+          this.arrayValues = Object["values"](this.arrayValues[0]);
+          this.tamanho++;
+        }
+        NivelArvore.arrayTotal.push(this.tamanho);
+        this.arrayTotal = NivelArvore.arrayTotal;
+      
+      }
+      console.log( NivelArvore.arrayTotal)
+    });
+
+  }
 
   entrarNivel(key:string,dado:string){
 
  
     
-    let click =  this.clicked==undefined?-99:this.clicked;
-    this.clicked =  this._slides.clickedIndex;
+    NivelArvore.click =  this.clicked==undefined?-99:this.clicked;
+    NivelArvore.clicked = this._slides.clickedIndex;
+    this.clicked = NivelArvore.clicked ;
    
    
  
@@ -102,19 +113,6 @@ steps(){
 
 
     this.itensBasicos.forEach(e=>{
-/*
-      let tamanho = document.getElementsByClassName(e[0].dado)[0].childElementCount;
-      let val = 0;
-    
-      for(let x=0;x<tamanho-1;x++){
-       if(document.getElementsByClassName(e[0].dado)[0].children[x].className == 'active' && val === 0){
-         
-         document.getElementsByClassName(e[0].dado)[0].children[x].removeAttribute('class');
-         document.getElementsByClassName(e[0].dado)[0].children[x+1].setAttribute('class','active');
-         val = 1;
-       }
-      }
-*/
      
       this.lenghtArray = e.length;
       if(e.length >0){
@@ -130,16 +128,33 @@ steps(){
 
     });
 
-    if(click === -99 || click !== this.clicked){
-    this.arrayAntigo = this.arrayTotal ;
+    if(NivelArvore.click === -99 ){
+    NivelArvore.arrayAntigo = NivelArvore.arrayTotal ;
+    this.arrayAntigo = NivelArvore.arrayAntigo;
+    NivelArvore.positionSteps++;
+    this.positionSteps = NivelArvore.positionSteps;
     }
-    this.arrayTotal = [];
+    else if( NivelArvore.click !== NivelArvore.clicked){
+      NivelArvore.arrayAntigo = NivelArvore.arrayTotal ;
+      this.arrayAntigo = NivelArvore.arrayAntigo;
+      NivelArvore.positionSteps = 0;
+      NivelArvore.positionSteps++;
+      this.positionSteps = NivelArvore.positionSteps;
+    }
+    else{
+      NivelArvore.positionSteps++;
+      this.positionSteps = NivelArvore.positionSteps;
+    }
+     
+    
+    NivelArvore.arrayTotal = [];
+    this.arrayTotal = NivelArvore.arrayTotal;
     this.steps();   
     this._slides.slideTo(0,1,true);
   }
 
   ionViewDidLoad() {
-    this.steps();   
+     
   }
 
   sairNivel(){
