@@ -90,10 +90,31 @@ export class MyApp {
         this.arrayPath = NivelArvore.nivelArvore.split('/');
         this.arrayPath.splice(-1,1);
         NivelArvore.nivelArvore = this.arrayPath.join('/');
-        NivelArvore.positionSteps--;
+      
+        if(NivelArvore.positionOld[NivelArvore.positionOld.length-1] >0){
+          if(NivelArvore.positionOld[NivelArvore.positionOld.length-1] ===1 && NivelArvore.positionOld.length>1 ){
+            
+            NivelArvore.positionOld.splice(-1,1);
+            NivelArvore.mapArrayAntigo.splice(-1,1);
+            NivelArvore.arrayAntigo = NivelArvore.mapArrayAntigo[NivelArvore.mapArrayAntigo.length-1];
+            NivelArvore.positionSteps=NivelArvore.positionOld[NivelArvore.positionOld.length-1]===undefined?0:NivelArvore.positionOld[NivelArvore.positionOld.length-1];
+            console.log('essa',NivelArvore.arrayAntigo)
+           }else{
+            NivelArvore.positionOld[NivelArvore.positionOld.length-1]--;
+            NivelArvore.arrayAntigo = NivelArvore.mapArrayAntigo[NivelArvore.mapArrayAntigo.length-1];
+            NivelArvore.positionSteps=NivelArvore.positionOld[NivelArvore.positionOld.length-1];
+           }
+         }else{
+          NivelArvore.mapArrayAntigo.splice(-1,1);
+          NivelArvore.positionOld.splice(-1,1);
+          NivelArvore.arrayAntigo = NivelArvore.mapArrayAntigo[NivelArvore.mapArrayAntigo.length-1];
+          NivelArvore.positionSteps =  NivelArvore.positionOld[NivelArvore.positionOld.length-1];
+         }
+            
         this.nav.setRoot(HomePage,{iniciarPostion:false});
       }else{
-        NivelArvore.nivelArvore ='base';        
+        NivelArvore.nivelArvore ='base';     
+       
         this.nav.setRoot(HomePage,{iniciarPostion:true});
       }
 
