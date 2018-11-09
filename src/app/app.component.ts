@@ -10,7 +10,7 @@ import {LoginPage} from '../pages/login/login'
 import { AngularFireAuth } from 'angularfire2/auth';
 import {ServicesProvider} from '../providers/services/services';
 import { NivelArvore } from '../providers/nivelArvore';
-
+import * as firebase from 'firebase';
 @Component({
   templateUrl: 'app.html'
 })
@@ -53,7 +53,25 @@ export class MyApp {
       { title: 'Sair', component: ListPage },
       
     ];
+// login social validation
+    firebase.auth().getRedirectResult().then(function(result) {
+      
+      if (result.credential) {
+        var token = result.credential;
+        var user = result.user;
+        console.log(token, user);
+      }
+    })
+    .catch(function(error) {
+      // Handle Errors here.
+      if (error.code == 'auth/account-exists-with-different-credential') {
+    
+        console.log(error.email);
+      }  
+    
 
+     
+    });
 
   }
 

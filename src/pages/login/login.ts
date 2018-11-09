@@ -9,7 +9,7 @@ import{FormGroup,FormBuilder,Validators} from '@angular/forms'
 import {HomePage} from '../home/home';
 
 import {RegisterPage} from '../register/register';
-
+import * as firebase from 'firebase';
 
 @IonicPage()
 @Component({
@@ -181,86 +181,13 @@ export class LoginPage {
   }
 
   githubLogin(){
-
-    let loading = this.loadingCtrl.create({
-
-      showBackdrop: true,
-      content: `Fazendo login...`,
-      duration: 5000
-    });
-    loading.present();
-
-    let toast = this.toastCtrl.create({
-      duration: 3000,
-      position: "bottom"
-    });
-
-    this.service.githubLogin()
-    .then(success => {
-        console.log(success);
-        localStorage.setItem('user', JSON.stringify(success.user));
-        
-        this.navCtrl.setRoot(HomePage).then(() => {
-          
-          loading.dismiss();
-          let toast = this.toastCtrl.create({
-            duration: 5000,
-            position: "bottom"
-          });
-          toast.setMessage(`Olá ${success.user.displayName}`);
-          toast.present();
-        });
-    })
-    .catch((error: any) => {
-      console.log(error);
-      loading.dismiss();
-      if (error.code == 'auth/account-exists-with-different-credential') {
-    
-        toast.setMessage('Este e-mail já está logado com outra credencial. O email é ' + error.email + '.');
-      }  
-      toast.present();
-
-    })
+    this.service.githubLogin();    
   }
-  
+  googleLogin(){
+    this.service.googleLogin();    
+  }
   facebookLogin(){
-    let loading = this.loadingCtrl.create({
-
-      showBackdrop: true,
-      content: `Fazendo login...`,
-      duration: 5000
-    });
-    loading.present();
-
-    let toast = this.toastCtrl.create({
-      duration: 3000,
-      position: "bottom"
-    });
-
-    this.service.facebookLogin()
-    .then(success => {
-        console.log(success);
-        localStorage.setItem('user', JSON.stringify(success.user));
-        this.navCtrl.setRoot(HomePage).then(() => {
-          loading.dismiss();
-          let toast = this.toastCtrl.create({
-            duration: 3000,
-            position: "bottom"
-          });
-          toast.setMessage(`Olá ${success.user.displayName}`);
-          toast.present();
-        });
-    })
-    .catch((error: any) => {
-      console.log(error);
-      loading.dismiss();
-      if (error.code == 'auth/account-exists-with-different-credential') {
-    
-        toast.setMessage('Este e-mail já está logado com outra credencial. O email é ' + error.email + '.');
-      }  
-      toast.present();
-
-    })
+    this.service.facebookLogin();   
   }
 
   presentPrompt() {

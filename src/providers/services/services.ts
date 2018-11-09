@@ -40,15 +40,22 @@ export class ServicesProvider {
 
   githubLogin() {
     const provider = new firebase.auth.GithubAuthProvider()
-    return this.socialSignIn(provider);
+    return  firebase.auth().signInWithRedirect(provider);;
   }
 
   facebookLogin() {
-    const provider = new firebase.auth.FacebookAuthProvider()
-    return this.socialSignIn(provider);
+    const provider = new firebase.auth.FacebookAuthProvider();
+   
+    return firebase.auth().signInWithRedirect(provider);
     
   }
 
+  googleLogin() {
+    const provider = new firebase.auth.GoogleAuthProvider();
+   
+    return firebase.auth().signInWithRedirect(provider);
+    
+  }
   private socialSignIn(provider) {
     return this.afAuth.auth.signInWithPopup(provider);
   
